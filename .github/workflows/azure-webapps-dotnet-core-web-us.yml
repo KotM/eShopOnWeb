@@ -17,10 +17,10 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: PublicApi -> Azure Web App
+name: Web-us -> Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: PublicAPI-eshop    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: web-us    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '7.0'                 # set this to the .NET Core version to use
 
@@ -53,10 +53,10 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Build with dotnet
-        run: dotnet build ./src/PublicApi/PublicApi.csproj --configuration Release
+        run: dotnet build ./src/Web/Web.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./src/PublicApi/PublicApi.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Development'
+      name: 'Development-web-us'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
