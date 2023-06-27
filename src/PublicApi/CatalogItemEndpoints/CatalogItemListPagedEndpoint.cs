@@ -56,9 +56,11 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
 
         var items = await itemRepository.ListAsync(pagedSpec);
 
-        _logger.LogInformation("Amount of returned items: {count}.", items.Count);
-        _logger.LogWarning("Amount of returned items: {count}.", items.Count);
-        _logger.LogError("Amount of returned items: {count}.", items.Count);
+        _logger.LogInformation("INFO: Amount of returned items: {count}.", items.Count);
+        _logger.LogWarning("WARNING: Amount of returned items: {count}.", items.Count);
+        _logger.LogError("ERROR: Amount of returned items: {count}.", items.Count);
+
+        throw new Exception("Cannot move further");
 
         response.CatalogItems.AddRange(items.Select(_mapper.Map<CatalogItemDto>));
         foreach (CatalogItemDto item in response.CatalogItems)
