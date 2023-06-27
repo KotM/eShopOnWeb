@@ -121,7 +121,8 @@ builder.Services.AddSwaggerGen(c =>
                     }
             });
 });
-builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
+//builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
+builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
