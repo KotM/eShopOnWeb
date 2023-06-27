@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using BlazorShared;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MinimalApi.Endpoint.Configurations.Extensions;
@@ -123,23 +121,6 @@ builder.Services.AddSwaggerGen(c =>
                     }
             });
 });
-//builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
-
-var aiOptions = new ApplicationInsightsServiceOptions
-{
-    EnableAdaptiveSampling = false,
-    EnableQuickPulseMetricStream = false
-};
-
-builder.Services.AddApplicationInsightsTelemetry(aiOptions);
-
-builder.Logging.AddApplicationInsights(
-        configureTelemetryConfiguration: (config) =>
-            config.ConnectionString = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"],
-            configureApplicationInsightsLoggerOptions: (options) => { }
-    );
-
-builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>("CatalogItemListPagedEndpoint", LogLevel.Trace);
 
 var app = builder.Build();
 
@@ -193,7 +174,7 @@ app.UseSwaggerUI(c =>
 
 app.MapControllers();
 app.MapEndpoints();
-throw new Exception("Cannot move further");
+
 app.Logger.LogInformation("LAUNCHING PublicApi");
 app.Run();
 
